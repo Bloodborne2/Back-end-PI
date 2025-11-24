@@ -94,4 +94,20 @@ public class UsuarioController {
         List<Usuario> usuarios = usuarioService.listarTodos();
         return ResponseEntity.ok(usuarios);
     }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<Usuario> editarPorId(
+            @PathVariable Long id,
+            @RequestBody UsuarioEdicaoDTO dto
+    ) {
+        Usuario atualizado = usuarioService.editarUsuarioComoAdmin(id, dto);
+        return ResponseEntity.ok(atualizado);
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> excluir(@PathVariable Long id) {
+        usuarioService.excluirUsuario(id);
+        return ResponseEntity.noContent().build(); // 204
+    }
+
 }

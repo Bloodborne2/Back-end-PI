@@ -69,7 +69,7 @@ public class UsuarioService {
         if (dto.getTelefone() != null) usuario.setTelefone(dto.getTelefone());
         if (dto.getEndereco() != null) usuario.setEndereco(dto.getEndereco());
         if (dto.getCep() != null) usuario.setCep(dto.getCep());
-        if (dto.getCep() != null) usuario.setCep(dto.getCep());
+        if (dto.getCpf() != null) usuario.setCpf(dto.getCpf());
 
 
         return usuarioRepository.save(usuario);
@@ -79,5 +79,34 @@ public class UsuarioService {
         return usuarioRepository.findAll();
     }
 
+    public Usuario editarUsuarioComoAdmin(Long id, UsuarioEdicaoDTO dto) {
+
+        Usuario usuario = usuarioRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Usuário não encontrado"));
+
+        // Evitar trocar email para um já existente
+        if (dto.getEmail() != null && !dto.getEmail().equals(usuario.getEmail())) {
+            if (usuarioRepository.findByEmail(dto.getEmail()).isPresent()) {
+                throw new IllegalArgumentException("Email já está em uso.");
+            }
+            usuario.setEmail(dto.getEmail());
+        }
+
+        if (dto.getNome() != null) usuario.setNome(dto.getNome());
+        if (dto.getTelefone() != null) usuario.setTelefone(dto.getTelefone());
+        if (dto.getEndereco() != null) usuario.setEndereco(dto.getEndereco());
+        if (dto.getCep() != null) usuario.setCep(dto.getCep());
+        if (dto.getCpf() != null) usuario.setCpf(dto.getCpf());
+
+        return usuarioRepository.save(usuario);
+    }
+
+    public void excluirUsuario(Long id) {
+        if (!usuarioRepository.existsById(id)) {
+            throw new RuntimeException("Usuário não encontrado");
+        }
+
+        usuarioRepository.deleteById(id);
+    }
 
 }
