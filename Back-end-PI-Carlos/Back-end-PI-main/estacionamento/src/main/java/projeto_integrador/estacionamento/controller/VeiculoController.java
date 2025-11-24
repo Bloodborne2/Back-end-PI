@@ -1,6 +1,7 @@
 package projeto_integrador.estacionamento.controller;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import projeto_integrador.estacionamento.DTO.VeiculoCadastroDTO;
 import projeto_integrador.estacionamento.entity.Veiculo;
@@ -51,5 +52,11 @@ public class VeiculoController {
     public void excluir(@PathVariable Long id, HttpServletRequest request) {
         Long usuarioId = getUsuarioId(request);
         veiculoService.excluirVeiculo(id, usuarioId);
+    }
+
+    @GetMapping("/lista")
+    public ResponseEntity<List<Veiculo>> listarTodos() {
+        List<Veiculo> veiculos = veiculoService.listarTodos();
+        return ResponseEntity.ok(veiculos);
     }
 }

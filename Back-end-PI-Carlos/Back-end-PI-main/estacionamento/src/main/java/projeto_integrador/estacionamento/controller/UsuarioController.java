@@ -3,6 +3,7 @@ package projeto_integrador.estacionamento.controller;
 import jakarta.servlet.http.HttpServletRequest;
 import projeto_integrador.estacionamento.DTO.*;
 import projeto_integrador.estacionamento.entity.Usuario;
+import projeto_integrador.estacionamento.repository.UsuarioRepository;
 import projeto_integrador.estacionamento.service.AuthService;
 import projeto_integrador.estacionamento.service.JwtService;
 import projeto_integrador.estacionamento.service.UsuarioService;
@@ -11,6 +12,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.NoSuchElementException;
 
 @RestController
@@ -87,5 +89,9 @@ public class UsuarioController {
         return usuarioService.editarUsuario(usuarioId, dto);
     }
 
-
+    @GetMapping("/lista")
+    public ResponseEntity<List<Usuario>> listarTodos() {
+        List<Usuario> usuarios = usuarioService.listarTodos();
+        return ResponseEntity.ok(usuarios);
+    }
 }

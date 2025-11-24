@@ -9,6 +9,8 @@ import projeto_integrador.estacionamento.entity.Veiculo;
 import projeto_integrador.estacionamento.repository.UsuarioRepository;
 import projeto_integrador.estacionamento.repository.VeiculoRepository;
 
+import java.util.List;
+
 @Service
 @RequiredArgsConstructor
 public class VeiculoService {
@@ -57,5 +59,7 @@ public class VeiculoService {
 
         veiculoRepository.delete(veiculo);
     }
-
+    public List<Veiculo> listarTodos() {
+        return veiculoRepository.findAll();
+    }
 }

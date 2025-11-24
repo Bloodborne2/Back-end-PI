@@ -1,5 +1,6 @@
 package projeto_integrador.estacionamento.service;
 
+import lombok.RequiredArgsConstructor;
 import projeto_integrador.estacionamento.DTO.UsuarioCadastroDTO;
 import projeto_integrador.estacionamento.DTO.UsuarioEdicaoDTO;
 import projeto_integrador.estacionamento.entity.Usuario;
@@ -7,6 +8,9 @@ import projeto_integrador.estacionamento.repository.UsuarioRepository;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
+import java.util.NoSuchElementException;
 
 @Service
 public class UsuarioService {
@@ -70,5 +74,10 @@ public class UsuarioService {
 
         return usuarioRepository.save(usuario);
     }
+
+    public List<Usuario> listarTodos() {
+        return usuarioRepository.findAll();
+    }
+
 
 }
