@@ -30,4 +30,32 @@ public class VeiculoService {
 
         return veiculoRepository.save(veiculo);
     }
+
+    public Veiculo editarVeiculo(Long id, Long usuarioId, VeiculoCadastroDTO dto) {
+        Veiculo veiculo = veiculoRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Veículo não encontrado"));
+
+        if (!veiculo.getUsuario().getId().equals(usuarioId)) {
+            throw new RuntimeException("Usuário não autorizado");
+        }
+
+        veiculo.setCategoria(dto.getCategoria());
+        veiculo.setPlaca(dto.getPlaca());
+        veiculo.setMontadora(dto.getMontadora());
+        veiculo.setModelo(dto.getModelo());
+
+        return veiculoRepository.save(veiculo);
+    }
+
+    public void excluirVeiculo(Long id, Long usuarioId) {
+        Veiculo veiculo = veiculoRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Veículo não encontrado"));
+
+        if (!veiculo.getUsuario().getId().equals(usuarioId)) {
+            throw new RuntimeException("Usuário não autorizado");
+        }
+
+        veiculoRepository.delete(veiculo);
+    }
+
 }

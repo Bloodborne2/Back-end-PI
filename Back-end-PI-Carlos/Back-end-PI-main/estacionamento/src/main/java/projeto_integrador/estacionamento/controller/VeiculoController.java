@@ -20,21 +20,36 @@ public class VeiculoController {
     private final JwtService jwtService;
     private final VeiculoRepository veiculoRepository;
 
+    private Long getUsuarioId(HttpServletRequest request) {
+        String token = request.getHeader("Authorization").replace("Bearer ", "");
+        return jwtService.extrairUserId(token);
+    }
+
+    // Cadastrar
     @PostMapping("/cadastrar")
     public Veiculo cadastrar(@RequestBody VeiculoCadastroDTO dto, HttpServletRequest request) {
-
-        String token = request.getHeader("Authorization").replace("Bearer ", "");
-        Long usuarioId = jwtService.extrairUserId(token);
-
+        Long usuarioId = getUsuarioId(request);
         return veiculoService.cadastrarVeiculo(usuarioId, dto);
     }
 
+    // Listar todos do usuário
     @GetMapping("/meus-veiculos")
     public List<Veiculo> listar(HttpServletRequest request) {
-
-        String token = request.getHeader("Authorization").replace("Bearer ", "");
-        Long usuarioId = jwtService.extrairUserId(token);
-
+        Long usuarioId = getUsuarioId(request);
         return veiculoRepository.findByUsuarioId(usuarioId);
+    }
+
+    // Editar veículo
+    @PutMapping("/{id}")
+    public Veiculo editar(@PathVariable Long id, @RequestBody VeiculoCadastroDTO dto, HttpServletRequest request) {
+        Long usuarioId = getUsuarioId(request);
+        return veiculoService.editarVeiculo(id, usuarioId, dto);
+    }
+
+    // Excluir veículo
+    @DeleteMapping("/{id}")
+    public void excluir(@PathVariable Long id, HttpServletRequest request) {
+        Long usuarioId = getUsuarioId(request);
+        veiculoService.excluirVeiculo(id, usuarioId);
     }
 }

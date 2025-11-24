@@ -1,8 +1,10 @@
 package projeto_integrador.estacionamento.controller;
 
+import jakarta.servlet.http.HttpServletRequest;
 import projeto_integrador.estacionamento.DTO.*;
 import projeto_integrador.estacionamento.entity.Usuario;
 import projeto_integrador.estacionamento.service.AuthService;
+import projeto_integrador.estacionamento.service.JwtService;
 import projeto_integrador.estacionamento.service.UsuarioService;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
@@ -17,11 +19,14 @@ public class UsuarioController {
 
     private final UsuarioService usuarioService;
     private final AuthService authService;
+    private final JwtService jwtService;
+
 
     // Injeção de dependência do Service
-    public UsuarioController(UsuarioService usuarioService, AuthService authService) {
+    public UsuarioController(UsuarioService usuarioService, AuthService authService, JwtService jwtService) {
         this.usuarioService = usuarioService;
         this.authService = authService;
+        this.jwtService = jwtService;
     }
 
 
@@ -70,6 +75,16 @@ public class UsuarioController {
                 usuario.getTelefone(),
                 usuario.getEndereco()
         );
+    }
+    @PutMapping("/editar")
+    public Usuario editarUsuario(
+            @RequestBody UsuarioEdicaoDTO dto,
+            HttpServletRequest request
+    ) {
+        String token = request.getHeader("Authorization").replace("Bearer ", "");
+        Long usuarioId = jwtService.extrairUserId(token);
+
+        return usuarioService.editarUsuario(usuarioId, dto);
     }
 
 

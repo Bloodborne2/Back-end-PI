@@ -1,6 +1,7 @@
 package projeto_integrador.estacionamento.service;
 
 import projeto_integrador.estacionamento.DTO.UsuarioCadastroDTO;
+import projeto_integrador.estacionamento.DTO.UsuarioEdicaoDTO;
 import projeto_integrador.estacionamento.entity.Usuario;
 import projeto_integrador.estacionamento.repository.UsuarioRepository;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -12,6 +13,7 @@ public class UsuarioService {
 
     private final UsuarioRepository usuarioRepository;
     private final PasswordEncoder passwordEncoder;
+
 
     // Injeção de dependência via construtor
     public UsuarioService(UsuarioRepository usuarioRepository, PasswordEncoder passwordEncoder) {
@@ -52,4 +54,21 @@ public class UsuarioService {
         return usuarioRepository.findByEmail(email)
                 .orElseThrow(() -> new RuntimeException("Usuário não encontrado"));
     }
+
+    public Usuario editarUsuario(Long usuarioId, UsuarioEdicaoDTO dto) {
+
+        Usuario usuario = usuarioRepository.findById(usuarioId)
+                .orElseThrow(() -> new RuntimeException("Usuário não encontrado"));
+
+        if (dto.getNome() != null) usuario.setNome(dto.getNome());
+        if (dto.getEmail() != null) usuario.setEmail(dto.getEmail());
+        if (dto.getTelefone() != null) usuario.setTelefone(dto.getTelefone());
+        if (dto.getEndereco() != null) usuario.setEndereco(dto.getEndereco());
+        if (dto.getCep() != null) usuario.setCep(dto.getCep());
+        if (dto.getCep() != null) usuario.setCep(dto.getCep());
+
+
+        return usuarioRepository.save(usuario);
+    }
+
 }
