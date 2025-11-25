@@ -73,4 +73,29 @@ public class VeiculoService {
     public List<Veiculo> listarTodos() {
         return veiculoRepository.findAll();
     }
+
+    public Veiculo editarVeiculoAdmin(Long id, VeiculoCadastroDTO dto) {
+        Veiculo veiculo = veiculoRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Veículo não encontrado"));
+
+        veiculoRepository.findByPlaca(dto.getPlaca()).ifPresent(v -> {
+            if (!v.getId().equals(id)) {
+                throw new RuntimeException("Placa já cadastrada.");
+            }
+        });
+
+        veiculo.setCategoria(dto.getCategoria());
+        veiculo.setPlaca(dto.getPlaca());
+        veiculo.setMontadora(dto.getMontadora());
+        veiculo.setModelo(dto.getModelo());
+
+        return veiculoRepository.save(veiculo);
+    }
+
+    public void excluirVeiculoAdmin(Long id) {
+        Veiculo veiculo = veiculoRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Veículo não encontrado"));
+
+        veiculoRepository.delete(veiculo);
+    }
 }

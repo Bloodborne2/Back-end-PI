@@ -59,4 +59,17 @@ public class VeiculoController {
         List<Veiculo> veiculos = veiculoService.listarTodos();
         return ResponseEntity.ok(veiculos);
     }
+
+    // Editar veículo sem checar usuário
+    @PutMapping("/admin/{id}")
+    public Veiculo editarAdmin(@PathVariable Long id, @RequestBody VeiculoCadastroDTO dto) {
+        return veiculoService.editarVeiculoAdmin(id, dto);
+    }
+
+    // Excluir veículo sem checar usuário
+    @DeleteMapping("/admin/{id}")
+    public ResponseEntity<Void> excluirAdmin(@PathVariable Long id) {
+        veiculoService.excluirVeiculoAdmin(id);
+        return ResponseEntity.noContent().build();
+    }
 }
