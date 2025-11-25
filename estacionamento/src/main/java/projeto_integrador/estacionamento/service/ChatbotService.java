@@ -22,9 +22,16 @@ public class ChatbotService {
     public void processarWebhook(String payload) {
         WhatsAppMessageDTO msg = WhatsAppParser.parse(payload);
 
+        System.out.println("=== PAYLOAD RECEBIDO ===");
+        System.out.println(payload);
+
         if (msg == null) {
+            System.out.println(">>> Mensagem ignorada (provavelmente status ou formato não suportado)");
             return;
         }
+
+        System.out.printf(">>> De: %s | Texto: %s | waId: %s%n",
+                msg.getFrom(), msg.getBody(), msg.getWaId());
 
         String telefone = normalizarTelefone(msg.getFrom());
         String texto = msg.getBody().trim();
@@ -60,7 +67,6 @@ public class ChatbotService {
 
     private String normalizarTelefone(String from) {
         if (from == null) return null;
-        // aqui você pode, por exemplo, remover "+" ou formatar para o mesmo padrão salvo no banco
         return from.trim();
     }
 
