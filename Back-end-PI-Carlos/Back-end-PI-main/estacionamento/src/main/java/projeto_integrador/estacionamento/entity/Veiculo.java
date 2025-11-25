@@ -14,7 +14,10 @@ public class Veiculo {
     private Long id;
 
     private String categoria;
+
+    @Column(unique = true)
     private String placa;
+
     private String montadora;
     private String modelo;
 

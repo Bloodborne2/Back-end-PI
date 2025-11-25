@@ -20,6 +20,10 @@ public class VeiculoService {
 
     public Veiculo cadastrarVeiculo(Long usuarioId, VeiculoCadastroDTO dto) {
 
+        if (veiculoRepository.findByPlaca(dto.getPlaca()).isPresent()) {
+            throw new RuntimeException("Placa já cadastrada.");
+        }
+
         Usuario usuario = usuarioRepository.findById(usuarioId)
                 .orElseThrow(() -> new RuntimeException("Usuário não encontrado"));
 
@@ -41,6 +45,12 @@ public class VeiculoService {
             throw new RuntimeException("Usuário não autorizado");
         }
 
+        veiculoRepository.findByPlaca(dto.getPlaca()).ifPresent(v -> {
+            if (!v.getId().equals(id)) {
+                throw new RuntimeException("Placa já cadastrada.");
+            }
+        });
+
         veiculo.setCategoria(dto.getCategoria());
         veiculo.setPlaca(dto.getPlaca());
         veiculo.setMontadora(dto.getMontadora());
@@ -48,6 +58,7 @@ public class VeiculoService {
 
         return veiculoRepository.save(veiculo);
     }
+
 
     public void excluirVeiculo(Long id, Long usuarioId) {
         Veiculo veiculo = veiculoRepository.findById(id)
