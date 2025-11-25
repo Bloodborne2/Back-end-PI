@@ -23,5 +23,5 @@ public class Veiculo {
 
     @ManyToOne
     @JoinColumn(name = "usuario_id")
-    private Usuario usuario; // dono do veículo
+    private Usuario usuario;
 }

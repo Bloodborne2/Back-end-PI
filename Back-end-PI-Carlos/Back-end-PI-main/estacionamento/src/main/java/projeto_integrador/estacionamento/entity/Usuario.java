@@ -18,10 +18,10 @@ public class Usuario {
 
     private String nome;
 
-    @Column(unique = true) // Garante unicidade no banco
+    @Column(unique = true)
     private String email;
 
-    @Column(unique = true) // Garante unicidade no banco
+    @Column(unique = true)
     private String cpf;
 
     private String cep;
@@ -29,7 +29,6 @@ public class Usuario {
     private String endereco;
     private String senhaHash;
 
-    // Construtor vazio (obrigatório pelo JPA)
     public Usuario() {}
 
     // Construtor usado pelo Service para criar a Entity
