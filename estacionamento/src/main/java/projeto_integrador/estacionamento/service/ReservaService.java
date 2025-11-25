@@ -51,7 +51,7 @@ public class ReservaService {
         if (conflito) {
             throw new ConflictException("Vaga indisponível no intervalo informado");
         }
-
+        System.out.println("testando");
         if (vaga.getStatus() == VagaStatus.OCUPADA) {
             throw new ConflictException("Vaga ocupada por ticket em aberto");
         }
