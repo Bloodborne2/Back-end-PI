@@ -30,6 +30,7 @@ public class ChatbotController {
 
     @PostMapping
     public ResponseEntity<String> receberMensagem(@RequestBody String payload) {
+        System.out.println(">>> POST /webhook/whatsapp recebido");
         chatbotService.processarWebhook(payload);
         return ResponseEntity.ok("EVENT_RECEIVED");
     }
